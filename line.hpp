@@ -12,6 +12,7 @@ class Line
         Line(int x0, int y0, int xf, int yf, TGAColor* color=NULL, float step=0.01);
         void draw1(TGAImage &image);
         void draw2(TGAImage &image);
+        void drawBest(TGAImage &image);
 };
 
 #endif

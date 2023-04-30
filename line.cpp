@@ -36,3 +36,42 @@ void Line::draw2(TGAImage &image)
 
     }
 }
+
+void Line::drawBest(TGAImage &image)
+{
+    bool steep = false;
+    if(std::abs(xf - x0) < std::abs(yf - y0)) // if height > width 
+    {
+        std::swap(x0, y0);
+        std::swap(xf, yf);
+        steep = true;
+    }
+
+    if(x0 > xf)
+    {
+        std::swap(x0, xf);
+    }
+
+    int dx = xf - x0;
+    int dy = yf - y0;
+
+    // float dError = std::abs((float) dy/ (float) dx);
+    // float error = 0;
+    int dError = std::abs(dy)*2;
+    int error = 0;
+    int y = this->y0;
+
+    for(int x = this->x0; x <= this->xf; x++)
+    {
+
+        steep? image.set(y, x, this->color) : image.set(x, y, this->color);
+        error += dError;
+
+        if(error > dx)
+        {
+            y += (this->yf > this->y0? 1 : -1);
+            error -= 2*dx;
+        }
+    }
+
+}
