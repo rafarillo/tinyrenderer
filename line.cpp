@@ -1,6 +1,6 @@
 #include "line.hpp"
 
-Line::Line(int x0, int y0, int xf, int yf, TGAColor* color, float step)
+Line::Line(int x0, int y0, int xf, int yf, const TGAColor* color, float step)
 {
     this->x0 = x0;
     this->y0 = y0;
@@ -50,6 +50,8 @@ void Line::drawBest(TGAImage &image)
     if(x0 > xf)
     {
         std::swap(x0, xf);
+        std::swap(y0, yf);
+
     }
 
     int dx = xf - x0;
@@ -57,6 +59,7 @@ void Line::drawBest(TGAImage &image)
 
     // float dError = std::abs((float) dy/ (float) dx);
     // float error = 0;
+    
     int dError = std::abs(dy)*2;
     int error = 0;
     int y = this->y0;
