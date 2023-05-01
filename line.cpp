@@ -1,44 +1,23 @@
 #include "line.hpp"
 
-Line::Line(int x0, int y0, int xf, int yf, const TGAColor* color, float step)
+Line::Line(Vec2i p0, Vec2i pf, const TGAColor* color)
 {
-    this->x0 = x0;
-    this->y0 = y0;
-    this->xf = xf;
-    this->yf = yf;
-    this->step = step;
+    this->p0 = p0;
+    this->pf = pf;
     if(color)
         this->color = *color;
     else
         this->color = TGAColor(255, 255, 255, 255);
 }
 
-void Line::draw1(TGAImage &image)
+void Line::draw(TGAImage &image)
 {
-    for(float t = 0.0; t < 1.0; t += this->step)
-    {
-        int x = this->x0 + (1-t)*this->xf;
-        int y = this->y0 + (1-t)*this->yf;
+    int x0 = p0.x;
+    int y0 = p0.y;
 
-        image.set(x, y, this->color);
+    int xf = pf.x;
+    int yf = pf.y;
 
-    }
-}
-
-void Line::draw2(TGAImage &image)
-{
-    for(int x = this->x0; x <= this->xf; x++)
-    {
-        float t = (x - this->x0)/(float)(this->xf - this->x0);
-        int y = (1.0-t)*this->y0 + t * this->yf;
-
-        image.set(x, y, this->color);
-
-    }
-}
-
-void Line::drawBest(TGAImage &image)
-{
     bool steep = false;
     if(std::abs(xf - x0) < std::abs(yf - y0)) // if height > width 
     {
@@ -62,9 +41,9 @@ void Line::drawBest(TGAImage &image)
     
     int dError = std::abs(dy)*2;
     int error = 0;
-    int y = this->y0;
+    int y = y0;
 
-    for(int x = this->x0; x <= this->xf; x++)
+    for(int x = x0; x <= xf; x++)
     {
 
         steep? image.set(y, x, this->color) : image.set(x, y, this->color);
@@ -72,7 +51,7 @@ void Line::drawBest(TGAImage &image)
 
         if(error > dx)
         {
-            y += (this->yf > this->y0? 1 : -1);
+            y += (yf > y0? 1 : -1);
             error -= 2*dx;
         }
     }

@@ -1,18 +1,17 @@
 #ifndef __LINE_H__
 #define __LINE_H__
 #include "tgaimage.h"
+#include "geometry.hpp"
 
 class Line
 {
     private:
-        int x0, y0, xf, yf; 
-        float step;
+        // int x0, y0, xf, yf; 
+        Vec2i p0, pf;
         TGAColor color;
     public:
-        Line(int x0, int y0, int xf, int yf, const TGAColor* color=NULL, float step=0.01);
-        void draw1(TGAImage &image);
-        void draw2(TGAImage &image);
-        void drawBest(TGAImage &image);
+        Line(Vec2i p0, Vec2i pf, const TGAColor* color=NULL);
+        void draw(TGAImage &image);
 };
 
 #endif

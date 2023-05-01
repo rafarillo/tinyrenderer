@@ -45,9 +45,11 @@ int main(int argc, char** argv) {
 			int y0 = (v0.y + 1.0) * HEIGHT * 0.5;
 			int yf = (vf.y + 1.0) * HEIGHT * 0.5;
 
-			Line l = Line(x0, y0, xf, yf, &white);
+			Vec2i p0 = Vec2i(x0, y0);
+			Vec2i pf = Vec2i(xf, yf);
+			Line l = Line(p0, pf, &white);
 
-			l.drawBest(image);
+			l.draw(image);
 		}
 	}
 
