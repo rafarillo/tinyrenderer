@@ -9,5 +9,7 @@ class Line
     Line(int x0, int y0, int xf, int yf);
     void draw1(TGAImage &image, TGAColor color);
     void draw2(TGAImage &image, TGAColor color);
-
+    void draw3(TGAImage &image, TGAColor color);
+    void draw4(TGAImage &image, TGAColor color);
+    void draw5(TGAImage &image, TGAColor color);
 };
