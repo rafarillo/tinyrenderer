@@ -1,11 +1,24 @@
 #include "line.hpp"
 
+Line::Line()
+{
+}
+
 Line::Line(int x0, int y0, int xf, int yf)
 {
     this->x0 = x0;
     this->xf = xf;
     this->y0 = y0;
     this->yf = yf;
+}
+
+Line::Line(Vec2<int> p0, Vec2<int> p1)
+{
+    this->x0 = p0.x;
+    this->y0 = p0.y;
+
+    this->xf = p1.x;
+    this->yf = p1.y;
 }
 
 void Line::draw1(TGAImage &image, TGAColor color)
@@ -145,4 +158,14 @@ void Line::draw5(TGAImage &image, TGAColor color)
             err -= dx*2; 
         } 
     }
+}
+
+Vec2<int> Line::getP0()
+{
+    return Vec2<int>(this->x0, this->y0);
+}
+
+Vec2<int> Line::getPf()
+{
+    return Vec2<int>(this->xf, this->yf);
 }
