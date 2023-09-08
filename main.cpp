@@ -21,9 +21,9 @@ int main(int argc, char** argv) {
 	tr0.DrawEmpty(image, green);
 	tr1.DrawEmpty(image, red);
 	tr2.DrawEmpty(image, blue);
-	tr0.SweepDrawFill(image, white);
-	tr1.SweepDrawFill(image, white);
-	tr2.SweepDrawFill(image, white);
+	tr0.BarycentricDrawFill(image, white);
+	tr1.BarycentricDrawFill(image, white);
+	tr2.BarycentricDrawFill(image, white);
 
 	
 	image.flip_vertically();
