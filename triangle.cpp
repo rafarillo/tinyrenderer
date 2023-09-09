@@ -14,7 +14,8 @@ Vec3<float> Triangle::CaculateBarycentric(Vec2<int> p)
     Vec3<float> a(this->p1.x - this->p0.x, this->p2.x - this->p0.x, this->p0.x - p.x);
     Vec3<float> b(this->p1.y - this->p0.y, this->p2.y - this->p0.y, this->p0.y - p.y);
     Vec3<float> cros = a ^ b;
-    return Vec3f(1 - (cros.x + cros.y)/cros.z, cros.x/cros.z, cros.y/cros.z);
+    if(std::abs(cros.z) < 1) return Vec3f(-1, 1, 1);
+    return Vec3f(1.0f - (cros.x + cros.y)/cros.z, cros.x/cros.z, cros.y/cros.z);
 }
 
 Triangle::Triangle(Vec2<int> p0, Vec2<int> p1, Vec2<int> p2)
@@ -96,14 +97,14 @@ void Triangle::BarycentricDrawFill(TGAImage &image, TGAColor color)
     pMax.x = std::max(this->p0.x, std::max(this->p1.x, this->p2.x));
     pMax.y = std::max(this->p0.y, std::max(this->p1.y, this->p2.y));
     
-    for(int x = pMin.x; x < pMax.x; x++)
+    for(int x = pMin.x; x <= pMax.x; x++)
     {
-        for(int y = pMin.y; y < pMax.y; y++)
+        for(int y = pMin.y; y <= pMax.y; y++)
         {
             Vec3f baricentric = CaculateBarycentric(Vec2i(x, y));
             // printf("x = %d y = %d\n", x, y);
             // printf("barX = %.2f barY = %.2f barZ = %.2f\n", baricentric.x, baricentric.y, baricentric.z);
-            if(baricentric.x > 0.0f && baricentric.y > 0.0f && baricentric.z > 0.0f)
+            if(baricentric.x >= 0.0f && baricentric.y >= 0.0f && baricentric.z >= 0.0f)
             {
                 image.set(x, y, color);
             }
