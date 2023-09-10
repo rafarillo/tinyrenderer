@@ -11,7 +11,7 @@ const TGAColor blue   = TGAColor(0, 0,   255,   255);
 const int width  = 800;
 const int height = 800;
 
-void MainDrawLines(int argc, char **argv, TGAImage image)
+void MainDrawLines(int argc, char **argv, TGAImage &image)
 {
 	image.flip_vertically(); // i want to have the origin at the left bottom corner of the image
 

@@ -11,7 +11,7 @@ const TGAColor red   = TGAColor(255, 0,   0,   255);
 const TGAColor green   = TGAColor(0, 255,   0,   255);
 const TGAColor blue   = TGAColor(0, 0,   255,   255);
 
-void MainDrawWireFrame(int argc, char ** argv, TGAImage image)
+void MainDrawWireFrame(int argc, char ** argv, TGAImage &image)
 {
     Model *model = NULL;
 	if(argc < 2)
