@@ -2,14 +2,15 @@
 #include "model.hpp"
 #include "geometry.hpp"
 #include "triangle.hpp"
+#include <iostream>
 
 const TGAColor white = TGAColor(255, 255, 255, 255);
 const TGAColor red   = TGAColor(255, 0,   0,   255);
 const TGAColor green   = TGAColor(0, 255,   0,   255);
 const TGAColor blue   = TGAColor(0, 0,   255,   255);
 
-const int width  = 700;
-const int height = 700;
+const int width  = 300;
+const int height = 300;
 
 void rasterize(Vec2i p0, Vec2i p1, TGAImage &image, TGAColor color, int ybuffer[]) {
     if (p0.x>p1.x) {
@@ -70,6 +71,7 @@ void Exapmle1D()
 
 int main(int argc, char** argv) {
 	TGAImage image(width, height, TGAImage::RGB);
+	TGAImage diffuseImage(width, height, TGAImage::RGB);
 	float zBuffer[width*height];
 	
 	for(int i = 0; i < width*height; i++) zBuffer[i] = std::numeric_limits<float>::min();
@@ -83,6 +85,11 @@ int main(int argc, char** argv) {
 	else
 	{
 		model = new Model(argv[1]);
+	}
+	
+	if(!diffuseImage.read_tga_file("./obj/african_head_diffuse.tga"))
+	{
+		printf("Could not read diffuse image\n");
 	}
 
 	Vec3f lighDir(0, 0, -1);
@@ -106,7 +113,7 @@ int main(int argc, char** argv) {
 		float intensity = triangleNormal * lighDir;
 		if(intensity > 0)
 		{
-			t.BarycentricDrawFill(image, TGAColor(intensity * 255, intensity * 255, intensity * 255, 255), zBuffer);
+			t.BarycentricDrawFill(image, TGAColor(intensity * 255, intensity * 255, intensity * 255, 255), zBuffer, diffuseImage);
 		}
 	}
 	

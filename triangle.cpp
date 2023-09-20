@@ -105,7 +105,7 @@ void Triangle::SweepDrawFill(TGAImage &image, TGAColor color)
     }
 }
 
-void Triangle::BarycentricDrawFill(TGAImage &image, TGAColor color, float * zBuffer)
+void Triangle::BarycentricDrawFill(TGAImage &image, TGAColor color, float * zBuffer, TGAImage &diffuseImage)
 {
     Vec3f pMax, pMin = pMax = this->pf0;
     int width = image.get_width();
@@ -121,6 +121,7 @@ void Triangle::BarycentricDrawFill(TGAImage &image, TGAColor color, float * zBuf
             for(int y = pMin.y; y <= pMax.y; y++)
             {
                 Vec3f baricentric = CaculateBarycentric(Vec2i(x, y));
+                TGAColor diffColor = diffuseImage.get(x, y);
                 // printf("x = %d y = %d\n", x, y);
                 // printf("barX = %.2f barY = %.2f barZ = %.2f\n", baricentric.x, baricentric.y, baricentric.z);
                 if(baricentric.x >= 0.0f && baricentric.y >= 0.0f && baricentric.z >= 0.0f)

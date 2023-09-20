@@ -7,7 +7,9 @@
 class Model {
 private:
 	std::vector<Vec3f> verts_;
-	std::vector<std::vector<int> > faces_;
+	std::vector<Vec3f> uvVerts_;
+	std::vector<std::vector<int>> faces_;
+	std::vector<std::vector<int>> texCoord;
 public:
 	Model(const char *filename);
 	~Model();

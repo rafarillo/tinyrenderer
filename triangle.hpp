@@ -15,5 +15,5 @@ class Triangle
     Triangle(Vec3f pf0, Vec3f pf1, Vec3f pf2);
     void DrawEmpty(TGAImage &image, TGAColor color);
     void SweepDrawFill(TGAImage &image, TGAColor color);
-    void BarycentricDrawFill(TGAImage &image, TGAColor color, float *zBuffer=NULL);
+    void BarycentricDrawFill(TGAImage &image, TGAColor color, float *zBuffer=NULL, TGAImage &diffuseImage);
 };
