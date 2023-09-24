@@ -9,8 +9,8 @@ const TGAColor red   = TGAColor(255, 0,   0,   255);
 const TGAColor green   = TGAColor(0, 255,   0,   255);
 const TGAColor blue   = TGAColor(0, 0,   255,   255);
 
-const int width  = 300;
-const int height = 300;
+const int width  = 400;
+const int height = 400;
 
 void rasterize(Vec2i p0, Vec2i p1, TGAImage &image, TGAColor color, int ybuffer[]) {
     if (p0.x>p1.x) {

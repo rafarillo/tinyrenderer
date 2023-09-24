@@ -126,7 +126,7 @@ void Triangle::BarycentricDrawFill(TGAImage &image, TGAImage &diffuseImage, Vec3
                 if(baricentric.x >= 0.0f && baricentric.y >= 0.0f && baricentric.z >= 0.0f)
                 {
                     Vec3f c = uvCoord[0] * baricentric.x +  uvCoord[1] * baricentric.y + uvCoord[2] * baricentric.z; 
-                    TGAColor resC = diffuseImage.get(c.x*intensity*diffuseImage.get_width(), c.y*intensity*diffuseImage.get_height());//TGAColor(255*intensity, 255*intensity, 255*intensity, 255);
+                    TGAColor resC = diffuseImage.get(c.x*intensity*x, c.y*intensity*y);//TGAColor(255*intensity, 255*intensity, 255*intensity, 255);
                     float z = 0;
                     z = this->pf0.z * baricentric.x + this->pf1.z * baricentric.y + this->pf2.z * baricentric.z;
                     if(zBuffer[x + y*width] < z)
