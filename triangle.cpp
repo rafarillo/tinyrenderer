@@ -1,4 +1,5 @@
 #include "triangle.hpp"
+#include <iostream>
 
 int Triangle::CalculateX(int y, Line l)
 {
@@ -105,7 +106,7 @@ void Triangle::SweepDrawFill(TGAImage &image, TGAColor color)
     }
 }
 
-void Triangle::BarycentricDrawFill(TGAImage &image, TGAColor color, float * zBuffer, TGAImage &diffuseImage)
+void Triangle::BarycentricDrawFill(TGAImage &image, TGAImage &diffuseImage, Vec3f* uvCoord, float intensity, float * zBuffer)
 {
     Vec3f pMax, pMin = pMax = this->pf0;
     int width = image.get_width();
@@ -114,6 +115,7 @@ void Triangle::BarycentricDrawFill(TGAImage &image, TGAColor color, float * zBuf
 
     pMax.x = std::max(this->pf0.x, std::max(this->pf1.x, this->pf2.x));
     pMax.y = std::max(this->pf0.y, std::max(this->pf1.y, this->pf2.y));
+    
     if(this->isRenderWithDepth)
     {
         for(int x = pMin.x; x <= pMax.x; x++)
@@ -121,37 +123,21 @@ void Triangle::BarycentricDrawFill(TGAImage &image, TGAColor color, float * zBuf
             for(int y = pMin.y; y <= pMax.y; y++)
             {
                 Vec3f baricentric = CaculateBarycentric(Vec2i(x, y));
-                TGAColor diffColor = diffuseImage.get(x, y);
-                // printf("x = %d y = %d\n", x, y);
-                // printf("barX = %.2f barY = %.2f barZ = %.2f\n", baricentric.x, baricentric.y, baricentric.z);
                 if(baricentric.x >= 0.0f && baricentric.y >= 0.0f && baricentric.z >= 0.0f)
                 {
+                    Vec3f c = uvCoord[0] * baricentric.x +  uvCoord[1] * baricentric.y + uvCoord[2] * baricentric.z; 
+                    TGAColor resC = diffuseImage.get(c.x*intensity*diffuseImage.get_width(), c.y*intensity*diffuseImage.get_height());//TGAColor(255*intensity, 255*intensity, 255*intensity, 255);
                     float z = 0;
                     z = this->pf0.z * baricentric.x + this->pf1.z * baricentric.y + this->pf2.z * baricentric.z;
                     if(zBuffer[x + y*width] < z)
                     {
                         zBuffer[x + y*width] = z;
-                        image.set(x, y, color);
+                        image.set(x, y, resC);
                     }
-                    // printf("z = %f, z[%d] = %f\n", z, x + y*width, zBuffer[x + y*width]);
                 }
             }
         }
         return;
-    }
-    
-    for(int x = pMin.x; x <= pMax.x; x++)
-    {
-        for(int y = pMin.y; y <= pMax.y; y++)
-        {
-            Vec3f baricentric = CaculateBarycentric(Vec2i(x, y));
-            // printf("x = %d y = %d\n", x, y);
-            // printf("barX = %.2f barY = %.2f barZ = %.2f\n", baricentric.x, baricentric.y, baricentric.z);
-            if(baricentric.x >= 0.0f && baricentric.y >= 0.0f && baricentric.z >= 0.0f)
-            {
-                image.set(x, y, color);
-            }
-        }
     }
 
 }

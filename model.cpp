@@ -24,22 +24,22 @@ Model::Model(const char *filename) : verts_(), faces_() {
             std::vector<int> t;
             int itrash, idx, coord;
             iss >> trash;
-            int la;
-            std::cout << line << std::endl;
-            std::cin >> la;
             while (iss >> idx >> trash >> (coord = itrash) >> trash >> itrash) {
-                std::cout << idx << "|" << coord << std::endl;
                 idx--; // in wavefront obj all indices start at 1, not zero
+                coord--;
                 f.push_back(idx);
+                t.push_back(coord);
             }
             faces_.push_back(f);
+            texCoord.push_back(t);
         }
-        else if (!line.compare(0, 2, "vt "))
+        else if (!line.compare(0, 3, "vt "))
         {
             iss >> trash;
-            Vec3f v;
-            for(int i = 0; i < 3; i++) iss >> v.raw[i];
-            uvVerts_.push_back(v);
+            iss >> trash;
+            Vec3f vt;
+            for(int i = 0; i < 3; i++) iss >> vt.raw[i];
+            uvVerts_.push_back(vt);
         }
     }
     std::cerr << "# v# " << verts_.size() << " f# "  << faces_.size() << std::endl;
@@ -58,6 +58,16 @@ int Model::nfaces() {
 
 std::vector<int> Model::face(int idx) {
     return faces_[idx];
+}
+
+std::vector<int> Model::TexCoord(int idx)
+{
+    return texCoord[idx];
+}
+
+Vec3f Model::uvVerts(int i)
+{
+    return uvVerts_[i];
 }
 
 Vec3f Model::vert(int i) {

@@ -97,8 +97,10 @@ int main(int argc, char** argv) {
 	for(int i = 0; i < model->nfaces(); i++)
 	{
 		std::vector<int> face = model->face(i);
+		std::vector<int> texCoord = model->TexCoord(i);
 		Vec3f screen_coords[3];
 		Vec3f world_coord[3];
+		Vec3f uvCoord[3];
 		for(int j = 0; j < 3; j++)
 		{
 			Vec3f v0 = model->vert(face[j]);
@@ -106,6 +108,7 @@ int main(int argc, char** argv) {
 			v0.x = (v0.x+1.)*width/2.;
             v0.y = (v0.y+1.)*height/2.;
            	screen_coords[j] = Vec3f(v0.x, v0.y, v0.z);
+			uvCoord[j] = model->uvVerts(texCoord[j]);
 		}
 		Triangle t(screen_coords[0], screen_coords[1], screen_coords[2]);
 		Vec3f triangleNormal = (world_coord[2] - world_coord[0]) ^ (world_coord[1] - world_coord[0]);
@@ -113,7 +116,7 @@ int main(int argc, char** argv) {
 		float intensity = triangleNormal * lighDir;
 		if(intensity > 0)
 		{
-			t.BarycentricDrawFill(image, TGAColor(intensity * 255, intensity * 255, intensity * 255, 255), zBuffer, diffuseImage);
+			t.BarycentricDrawFill(image, diffuseImage, uvCoord, intensity, zBuffer);
 		}
 	}
 	
